@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+     <meta charset="utf-8"/>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">      
+
+     <title>Dados Meteorológicos Diário</title>
+ 
+     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/icon?family=Material+Icons'>
+     <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css'>
+
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js'></script>
+
+<script>
+function dmData(){
+   var DM = [];
+   this.prn = function(){
+       var str = "\n DM ::" + DM.length + "\n";
+       for( var dm = 0; dm < DM.length; dm++ ){
+            str += "[" + DM[dm] + "],\n";
+       }
+       alert(str);
+   }
+   this.setData = function(dm){
+       DM.push(dm);
+       alert("\n dm: " + dm);
+       this.prn();
+  }
+}
+
+var Data = new dmData();
+
+$(document).ready(function() {
+    $(".datepicker").pickadate({
+        monthsFull    : [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ],
+        monthsShort   : [ "Jan", "Fev", "Mar", "Abr", "Maio", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez" ],
+        weekdaysFull  : [ "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" ],
+        weekdaysShort : [ "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb" ],
+        weekdaysLetter: [ "D", "S", "T", "Q", "Q", "S", "S" ],
+        today : "hoje",
+        clear : "limpar",
+        close : "fechar",
+        format: "dd/mm/yyyy"
+    });
+});
+function nmr(icon,msg,nome,classe,mnm,mxm){
+   var str;
+   str = '<div class="input-field col s12">'
+       + '     <i class="material-icons prefix">' + icon + '</i>'
+       + '     <input placeholder="' + msg + '" value="10" id="' + nome + '" min="'+ mnm + '" max="' + mxm +'"  type="number" class="'+ classe + '" required>'
+       + '     <label for="' + nome + '">' + msg + '</label>'
+       + '</div>';
+   return str;
+}
+function plv(icon,msg,nome,classe){
+   var str;
+   str = '<div class="input-field col s12">'
+       + '     <i class="material-icons prefix">' + icon + '</i>'
+       + '     <input placeholder="' + msg + '" value="10/08/2017" id="' + nome + '" type="text" class="'+ classe + '" required>'
+       + '     <label for="' + nome + '">' + msg + '</label>'
+       + '</div>';
+   return str;
+}
+function enviar(){
+   var dm = [];
+   dm.push( "'" + document.getElementById("dmData").value + "'");
+   dm.push( document.getElementById("dmTn").value );
+   dm.push( document.getElementById("dmT" ).value );
+   dm.push( document.getElementById("dmTx").value );
+   dm.push( document.getElementById("dmUR").value );
+   dm.push( document.getElementById("dmVV").value );
+   dm.push( document.getElementById("dmRS").value );
+   dm.push( document.getElementById("dmP" ).value );
+   Data.setData(dm);
+}
+function plDM(){
+   var str, dts;
+   str = '<h4>Dados Meteorológicos Diários</h4>'
+       + '<div class="row">'
+       +       plv('event'         ,'data'                              ,'dmData','datepicker'     ) 
+       +       nmr('trending_down' ,'Temperatura mínima (&deg;)'        ,'dmTn'  ,'active validate',0.0,50.0 )
+       +       nmr('linear_scale'  ,'Temperatura média (&deg;)'         ,'dmT'   ,'active validate',0.0,50.0 )
+       +       nmr('trending_up'   ,'Temperatura máxima (&deg;)'        ,'dmTx'  ,'active validate',0.0,50.0 )
+       +       nmr('blur_on'       ,'Umidade relativa média (%)'        ,'dmUR'  ,'active validate',0.0,100.0)
+       +       nmr('toys'          ,'Velocidade do vento (m/s)'         ,'dmVV'  ,'active validate',0.0,100.0)
+       +       nmr('wb_sunny'      ,'Radiação solar (MJ/m<sup>2</sup>)' ,'dmRS'  ,'active validate',0.0,100.0)
+       +       nmr('cloud_download','Chuva (mm)'                        ,'dmP'   ,'active validate',0.0,100.0)
+       + '     <button class="btn waves-effect waves-light" type="submit" name="btnDM" onclick="enviar()" >Submit'
+       + '             <i class="material-icons right">send</i>'
+       + '     </button>'
+       + '</div>';
+   var txt = document.getElementById("dmPage");
+   txt.innerHTML = str;
+}
+window.onload = function(){ 
+   plDM();
+}
+</script>
+
+</head>
+<body class="container"> 
+      <div id="dmPage"></div>
+</body>   
+</html>

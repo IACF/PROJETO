@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+     <meta charset="utf-8"/>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">      
+
+     <title>Plantio</title>
+ 
+     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/icon?family=Material+Icons'>
+     <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css'>
+
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js'></script>
+
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+    $(".datepicker").pickadate({
+        monthsFull    : [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ],
+        monthsShort   : [ "Jan", "Fev", "Mar", "Abr", "Maio", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez" ],
+        weekdaysFull  : [ "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" ],
+        weekdaysShort : [ "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb" ],
+        weekdaysLetter: [ "D", "S", "T", "Q", "Q", "S", "S" ],
+        today : "hoje",
+        clear : "limpar",
+        close : "fechar",
+        format: "dd/mm/yyyy"
+    });
+});
+</script>
+
+<script>
+function plData(){
+   var PA = [], si;
+   this.prn = function(){
+       var str = "\n PA ::" + PA.length + "\n";
+       for( var pa = 0; pa < PA.length; pa++ ){
+            str += "[";
+            for( var c = 0; c < PA[pa].length; c++ ){
+                 str += PA[pa][c] + ",";
+                 if( c % 10 == 0 ) str += "\n";
+            }
+            str += "],\n";
+       }
+       alert(str + "\n\n\n");
+   }
+   this.setData = function(pl){
+       PA.push(pl);
+//       alert("\n pl: " + pl);
+       this.prn();
+   }
+   this.setSI = function(si){
+       this.si = si;
+   }
+   this.getSI = function(){
+       return this.si;
+   }
+}
+
+var Data = new plData();
+
+function plEnviar(){
+   var pl = [];
+   pl.push( "'" + document.getElementById("plNomeParcela"  ).value + "'" );
+   pl.push( document.getElementById("plNsp"          ).value );
+   pl.push( "'" + document.getElementById("plDataPlantio"  ).value + "'" );
+   pl.push( document.getElementById("plECe"          ).value );
+   pl.push( document.getElementById("plZrini"        ).value );
+   pl.push( document.getElementById("plZrmax"        ).value );
+   pl.push( document.getElementById("plPa"           ).value );
+   pl.push( document.getElementById("plZe"           ).value );
+   pl.push( document.getElementById("plKcmax"        ).value );
+   pl.push( document.getElementById("plWini"         ).value );
+   pl.push( document.getElementById("plFC"           ).value );
+   pl.push( document.getElementById("plWP"           ).value );
+   pl.push( document.getElementById("plDs"           ).value );
+   pl.push( "'" + document.getElementById("plNomeCultura"  ).value + "'" );
+   pl.push( document.getElementById("plP"            ).value );
+   pl.push( document.getElementById("plECethereshold").value );
+   pl.push( document.getElementById("plB"            ).value );
+   pl.push( document.getElementById("plKy"           ).value );
+   pl.push( document.getElementById("plLini"         ).value );
+   pl.push( document.getElementById("plLdev"         ).value );
+   pl.push( document.getElementById("plLmid"         ).value );
+   pl.push( document.getElementById("plLlate"        ).value );
+   pl.push( document.getElementById("plKcini"        ).value );
+   pl.push( document.getElementById("plKcmid"        ).value );
+   pl.push( document.getElementById("plKcend"        ).value );
+   pl.push( document.getElementById("plKcbini"       ).value );
+   pl.push( document.getElementById("plKcbmid"       ).value );
+   pl.push( document.getElementById("plKcbend"       ).value );
+   pl.push( document.getElementById("plHmax"         ).value );
+   pl.push( "'" + document.getElementById("plNomeEI"       ).value + "'" );
+   pl.push( document.getElementById("plP"            ).value );
+   pl.push( document.getElementById("plCU"           ).value );
+   pl.push( document.getElementById("plECw"          ).value );
+   pl.push(Data.getSI());
+   switch(Data.getSI()){
+       case  0:  // gotejamento
+                 pl.push( document.getElementById("goQ"     ).value );
+                 pl.push( document.getElementById("goSp"    ).value );
+                 pl.push( document.getElementById("goSr"    ).value );
+                 pl.push( document.getElementById("goSe"    ).value );
+                 pl.push( document.getElementById("goNp"    ).value );
+                 pl.push( document.getElementById("goW"     ).value );
+                 pl.push( document.getElementById("goTR"    ).value );
+                 pl.push( document.getElementById("goLLT"   ).checked );
+                 break;
+       case  1:  // microaspersão
+                 pl.push( document.getElementById("maQ"     ).value );
+                 pl.push( document.getElementById("maR"     ).value );
+                 pl.push( document.getElementById("maSp"    ).value );
+                 pl.push( document.getElementById("maSr"    ).value );
+                 pl.push( document.getElementById("maNp"    ).value );
+                 pl.push( document.getElementById("maTR"    ).value );
+                 break;
+       case  2:  // aspersão convencional
+                 pl.push( document.getElementById("acQ"     ).value );
+                 pl.push( document.getElementById("acB"     ).value );
+                 pl.push( document.getElementById("acSe"    ).value );
+                 pl.push( document.getElementById("acSl"    ).value );
+                 break;
+       case  3:  // pivo central
+                 pl.push( document.getElementById("pcQ"     ).value );
+                 pl.push( document.getElementById("pcB"     ).value );
+                 pl.push( document.getElementById("pcR"     ).value );
+                 pl.push( document.getElementById("pcT100"  ).value );
+                 pl.push( document.getElementById("pcAPini" ).value );
+                 pl.push( document.getElementById("pcAPend" ).value );
+                 break;
+       case  4:  // autopropelido
+                 pl.push( document.getElementById("apQ"     ).value );
+                 pl.push( document.getElementById("apB"     ).value );
+                 pl.push( document.getElementById("apW"     ).value );
+                 pl.push( document.getElementById("apC"     ).value );
+                 pl.push( document.getElementById("apVt"    ).value );
+                 pl.push( document.getElementById("apRj"    ).value );
+                 pl.push( document.getElementById("apOmg"   ).value );
+                 break;
+       case  5:  // movimentação lateral
+                 pl.push( document.getElementById("mlQ"     ).value );
+                 pl.push( document.getElementById("mlB"     ).value );
+                 pl.push( document.getElementById("mlL"     ).value );
+                 pl.push( document.getElementById("mlLf"    ).value );
+                 pl.push( document.getElementById("mlT100"  ).value );
+                 break;
+   }
+   Data.setData(pl);
+}
+function nmr(icon,msg,nome,classe,mnm,mxm){
+   var str;
+   str = '<div class="input-field col s12">'
+       + '     <i class="material-icons prefix">' + icon + '</i>'
+       + '     <input placeholder="' + msg + '" value="10" id="' + nome + '" min="'+ mnm + '" max="' + mxm +'"  type="number" class="'+ classe + '" required>'
+       + '     <label for="' + nome + '">' + msg + '</label>'
+       + '</div>';
+   return str;
+}
+function plv(icon,msg,nome,classe){
+   var str;
+   str = '<div class="input-field col s12">'
+       + '     <i class="material-icons prefix">' + icon + '</i>'
+       + '     <input placeholder="' + msg + '" value="xxx" id="' + nome + '" type="text" class="'+ classe + '" required>'
+       + '     <label for="' + nome + '">' + msg + '</label>'
+       + '</div>';
+   return str;
+}
+function si(n){
+   var str;
+   Data.setSI(n-1);
+   switch(n-1){
+       case  0:  // gotejamento
+                 str =  nmr('rss_feed'   ,'vazão do emissor (l/s)'                                  ,'goQ'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre plantas nas fileiras de plantas (m)'   ,'goSp'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre fileiras de plantas (m)'               ,'goSr'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre emissores nas linhas laterais (m)'     ,'goSe'   ,'active validate',1  ,100)
+                     +  nmr('more_horiz' ,'número de emissores por planta'                          ,'goNp'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'largura da faixa molhada (m)'                            ,'goW'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'turno de rega (d)'                                       ,'goTR'   ,'active validate',1  ,100)
+                     + '     <i class="material-icons prefix">storage</i>'
+                     + '     <input type="checkbox" id="goLLT" checked="checked"/>'
+                     + '     <label for="goLLT">Linha Lateral Simples</label>';
+                     + '<p><p>';
+                 break;
+       case  1:  // microaspersão
+                 str =  nmr('rss_feed'   ,'vazão do equipamento (l/s)'                              ,'maQ'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'alcance do jato dágua (m)'                               ,'maR'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre plantas nas fileiras de plantas (m)'   ,'maSp'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre fileiras de plantas (m)'               ,'maSr'   ,'active validate',1  ,100)
+                     +  nmr('more_horiz' ,'número de emissores por planta'                          ,'maNp'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'truno de rega (d)'                                       ,'maTR'   ,'active validate',1  ,100);
+                 break;
+       case  2:  // aspersão convencional
+                 str =  nmr('rss_feed'   ,'vazão do equipamento (m<sup>3</sup>/s)'                  ,'acQ'    ,'active validate',1  ,100)
+                     +  nmr('flare'      ,'diâmetro médio do bocal (mm)'                            ,'acB'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre aspersores nas linhas laterais (m)'    ,'acSe'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre linhas laterais na linha principal (m)','acSl'   ,'active validate',1  ,100);
+                 break;
+       case  3:  // pivo central
+                 str =  nmr('rss_feed'    ,'vazão do equipamento (m<sup>3</sup>/s)'                 ,'pcQ'    ,'active validate',1  ,100)
+                     +  nmr('flare'       ,'diâmetro médio do bocal (mm)'                           ,'pcB'    ,'active validate',1  ,100)
+                     +  nmr('border_all'  ,'raio máximo irrigado (m)'                               ,'pcR'    ,'active validate',1  ,100)
+                     +  nmr('alarm'       ,'tempo de irrigação com o percentímeto a 100% (h)'       ,'pcT100' ,'active validate',1  ,100)
+                     +  nmr('data_usage'  ,'posição angular inicial da parcela irrigada (&deg;)'    ,'pcAPini','active validate',0  ,360)
+                     +  nmr('data_usage'  ,'posição angular final da parcela irrigada (&deg;)'      ,'pcAPend','active validate',0  ,360);
+                 break;
+       case  4:  // autopropelido
+                 str =  nmr('rss_feed'   ,'vazão do equipamento (m<sup>3</sup>/s)'                  ,'apQ'    ,'active validate',1  ,100)
+                     +  nmr('flare'      ,'diâmetro médio do bocal (mm)'                            ,'apB'    ,'active validate',1  ,100)
+                     +  nmr('exit_to_app','avanço do autopropelido (m)'                             ,'apW'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'comprimento da faixa irrigada (m)'                       ,'apC'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'velocidade de deslocamento do autopropelido (m/min)'     ,'apVt'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'raio irrigado pelo aspersor (m)'                         ,'apRj'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'ângulo de giro do aspersor (&deg;)'                      ,'apOmg'  ,'active validate',0  ,360);
+                 break;
+       case  5:  // movimentação lateral
+                 str =  nmr('rss_feed'    ,'vazão do equipamento (m<sup>3</sup>/s)'                 ,'mlQ'    ,'active validate',1  ,100)
+                     +  nmr('flare'       ,'diâmetro médio do bocal (mm)'                           ,'mlB'    ,'active validate',1  ,100)
+                     +  nmr('border_all'  ,'comprimento da linha lateral do sistema linear (m)'     ,'mlL'    ,'active validate',1  ,100)
+                     +  nmr('border_all'  ,'comprimento da área irrigada (m)'                       ,'mlLf'   ,'active validate',1  ,100)
+                     +  nmr('alarm'       ,'tempo de irrigação com o percentímeto a 100% (h)'       ,'mlT100' ,'active validate',1  ,100);
+                 break;
+       default:   // gotejamento
+                 str =  nmr('rss_feed'   ,'vazão do emissor (l/s)'                                  ,'goQ'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre plantas nas fileiras de plantas (m)'   ,'goSp'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre fileiras de plantas (m)'               ,'goSr'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'espaçamento entre emissores nas linhas laterais (m)'     ,'goSe'   ,'active validate',1  ,100)
+                     +  nmr('more_horiz' ,'número de emissores por planta'                          ,'goNp'   ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'largura da faixa molhada (m)'                            ,'goW'    ,'active validate',1  ,100)
+                     +  nmr('border_all' ,'turno de rega (d)'                                       ,'goTR'   ,'active validate',1  ,100)
+                     + '     <i class="material-icons prefix">storage</i>'
+                     + '     <input type="checkbox" id="goLLT" checked="checked"/>'
+                     + '     <label for="goLLT">Linha Lateral Simples</label>';
+                     + '<p><p>';
+   }
+   var txt = document.getElementById('plSI');
+   txt.innerHTML = str;
+}
+function plPA(){
+   var str, dts;
+   str = '<div class="row">'
+       + '     <h4>Dados do plantio</h4>'
+       +       plv('apps'             ,'nome da parcela'                                                    ,'plNomeParcela'  ,'active validate') 
+       +       nmr('border_all'       ,'número de subparcelas'                                              ,'plNsp'          ,'active validate',1  ,100)
+       +       plv('event'            ,'data do plantio'                                                    ,'plDataPlantio'  ,'datepicker'     ) 
+       +       nmr('grain'            ,'condutividade elétrica do estrato saturado da zona radicular (dS/m)','plECe'          ,'active validate',0  ,50 ) 
+       +       nmr('drag_handle'      ,'profundidade inicial do sistema radicular (m)'                      ,'plZrini'        ,'active validate',0  ,50 )
+       +       nmr('file_download'    ,'profundidade efetiva máxima do sistema radicular (m)'               ,'plZrmax'        ,'active validate',0  ,50 )
+       +       nmr('flip'             ,'percentagem de área adequadamente irrigada (%)'                     ,'plPa'           ,'active validate',0  ,50 )
+       +       nmr('file_upload'      ,'profundidade da zona de evaporação (m)'                             ,'plZe'           ,'active validate',0  ,50 )
+       +       nmr('show_chart'       ,'valor máximo do coeficiente de cultura'                             ,'plKcmax'        ,'active validate',0  ,50 )
+       + '     <h4>Dados do solo</h4>'
+       +       nmr('invert_colors'    ,'lâmina de água no solo no plantio (%)'                              ,'plWini'         ,'active validate',1  ,100)       
+       +       nmr('flip_to_front'    ,'capacidade de campo (%)'                                            ,'plFC'           ,'active validate',1  ,100)
+       +       nmr('flip_to_back'     ,'ponto de murcha permanente (%)'                                     ,'plWP'           ,'active validate',1  ,100)
+       +       nmr('gradient'         ,'densidade do solo (kg/m<sup>3</sup>)'                               ,'plDs'           ,'active validate',0.5,1.8)
+       + '     <h4> Dados da cultura</h4>'
+       +       plv('spa'              ,'nome da cultura'                                                    ,'plNomeCultura'  ,'active validate') 
+       +       nmr('opacity'          ,'fração da água disponível na zona radicular'                        ,'plP'            ,'active validate',0  ,1  ) 
+       +       nmr('grain'            ,'condutividade elétrica limiar da cultura (dS/m)'                    ,'plECethereshold','active validate',1  ,100) 
+       +       nmr('trending_down'    ,'perda de produtividade devido a condutividade elétrica (%/dS/m)'    ,'plB'            ,'active validate',1  ,100) 
+       +       nmr('sync'             ,'sensibilidade da cultura ao déficit hídrico'                        ,'plKy'           ,'active validate',1  ,100) 
+       +       nmr('remove'           ,'duração do estádio inicial (d)'                                     ,'plLini'         ,'active validate',1  ,100) 
+       +       nmr('short_text'       ,'duração do estádio de desenvolvimento (d)'                          ,'plLdev'         ,'active validate',1  ,100) 
+       +       nmr('sort'             ,'duração do estádio intermediário (d)'                               ,'plLmid'         ,'active validate',1  ,100) 
+       +       nmr('subject'          ,'duração do estádio final (d)'                                       ,'plLlate'        ,'active validate',1  ,100) 
+       +       nmr('border_bottom'    ,'coeficiente da cultura no estádio inicial'                          ,'plKcini'        ,'active validate',1  ,100) 
+       +       nmr('border_horizontal','coeficiente da cultura no estádio intermediário'                    ,'plKcmid'        ,'active validate',1  ,100) 
+       +       nmr('border_top'       ,'coeficiente da cultura no estádio final'                            ,'plKcend'        ,'active validate',1  ,100) 
+       +       nmr('border_bottom'    ,'coeficiente basal da cultura no estádio inicial'                    ,'plKcbini'       ,'active validate',1  ,100) 
+       +       nmr('border_horizontal','coeficiente basal da cultura no estádio intermediário'              ,'plKcbmid'       ,'active validate',1  ,100) 
+       +       nmr('border_top'       ,'coeficiente basal da cultura no estádio final'                      ,'plKcbend'       ,'active validate',1  ,100)
+       +       nmr('nature'           ,'altura máxima da cultura (m)'                                       ,'plHmax'         ,'active validate',1  ,100)
+       + '     <h4> Dados do equipamento de irrigação</h4>'
+       +       plv('wifi_tethering'   ,'nome do equipamenta de irrigação'                                   ,'plNomeEI'       ,'active validate')
+       +       nmr('open_with'        ,'pressão de serviço (mca)'                                           ,'plP'            ,'active validate',1  ,100) 
+       +       nmr('texture'          ,'coeficiente de uniformidade de Christiansen (%)'                    ,'plCU'           ,'active validate',1  ,100) 
+       +       nmr('wb_iridescent'    ,'condutividade elétrica da água de irrigação (dS/m)'                 ,'plECw'          ,'active validate',1  ,100) 
+       + '     <i class="material-icons prefix">blur_linear</i>'
+       + '     <label>sistema de irrigação</label>'
+       + '     <select onchange ="si(value)" classe ="required">'
+       + '               <option value=""></option>'
+       + '               <option value="1">gotejamento</option>'
+       + '               <option value="2">microaspersão</option>'
+       + '               <option value="3">aspersão convencional</option>'
+       + '               <option value="4">pivo central</option>'
+       + '               <option value="5">autopropelido</option>'
+       + '               <option value="6">movimentação lateral</option>'
+       + '     </select>'
+       + '     <div class="row" id="plSI"></div>'
+       + '     <button class="btn waves-effect waves-light" type="submit" name="btnDM" onclick="plEnviar()" >Submit'
+       + '             <i class="material-icons right">send</i>'
+       + '     </button>'
+       + '</div>';
+
+   var txt = document.getElementById("paPage");
+   txt.innerHTML = str;
+}
+</script> 
+<body class="container" onload="plPA()"> 
+      <div id="paPage"></div>
+</body>   
+</html>

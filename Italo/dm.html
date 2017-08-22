@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+     <meta charset="utf-8"/>
+	 <meta name="viewport" content="width=device-width, initial-scale=1">      
+
+     <title>Dados Meteorológicos Diário</title>
+ 
+     <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/icon?family=Material+Icons'>
+     <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'>
+
+
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js'></script>
+
+<body class="container">   
+      <h4> Dados Meteorológicos Diários</h4>
+      <i class="material-icons prefix">vertical_align_bottom</i>
+      <i class="material-icons prefix">vertical_align_center</i>
+      <i class="material-icons prefix">vertical_align_top</i>
+      <div class="row">
+           <form class="col s12">
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">event</i>
+                      <input placeholder="data" value="" id="dmData" type="text" class="datepicker" required>
+                      <label for="plData">data</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">trending_down</i>
+                      <input placeholder="Temperatura mínima (&deg;)" value="" id="dmTn" type="text" class="active validate" required>
+                      <label for="dmTn">Temperatura mínima (&deg;)</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">linear_scale</i>
+                      <input placeholder="Temperatura média (&deg;)" value="" id="dmT" type="text" class="active validate" required>
+                      <label for="dmT">Temperatura média (&deg;)</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">trending_up</i>
+                      <input placeholder="Temperatura máxima (&deg;)" value="" id="dmTx" type="text" class="active validate" required>
+                      <label for="dmTx">Temperatura máxima (&deg;)</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">blur_on</i>
+                      <input placeholder="Umidade relativa média (%)" value="" id="dmUR" type="text" class="active validate" required>
+                      <label for="dmUR">Umidade relativa média (%)</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">toys</i>
+                      <input placeholder="Velocidade do vento (m/s)" value="" id="dmVV" type="text" class="active validate" required>
+                      <label for="dmVv">Velocidade do vento (m/s)</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">wb_sunny</i>
+                      <input placeholder="Radiação solar (MJ/m<sup>2</sup>)" value="" id="dmRS" type="text" class="active validate" required>
+                      <label for="dmRS">Radiação solar (MJ/m<sup>2</sup>)</label>
+                 </div>
+                 <div class="input-field col s12">
+                      <i class="material-icons prefix">cloud_download</i>
+                      <input placeholder="Chuva (mm)" value="" id="dmP" type="text" class="active validate" required>
+                      <label for="dmP">Chuva (m)</label>
+                 </div>
+                 <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                         <i class="material-icons right">send</i>
+                 </button>
+           </form>       
+      </div>
+
+      <script src="inc/plPlantio.js"></script>
+
+</body>   
+</html>
